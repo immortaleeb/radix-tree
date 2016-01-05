@@ -2,7 +2,11 @@
 
 const chai = require('chai'),
       should = chai.should(),
+      fs = require('fs'),
       Tree = require('../src/Tree');
+
+// Location of the system's dictionary
+const DICT_FILE = '/usr/share/dict/words';
 
 describe('Tree', () => {
   describe('#constructor()', () => {
@@ -88,6 +92,34 @@ describe('Tree', () => {
 
         let count = ++counted[index];
         count.should.equal(1);
+      });
+    });
+  });
+
+  describe('dictionary test', () => {
+    it('should loop over all words in the dictionary', function(done) {
+      // disable timeout, cause this might take a while
+      this.timeout(0);
+
+      let tree = new Tree();
+      console.log('reading file');
+      fs.readFile(DICT_FILE, 'utf8', (err, data) => {
+        if (err) throw err;
+        console.log('splitting words');
+        let words = data.split('\n'),
+            counted = new Map();
+
+        console.log('inserting words');
+        words.forEach(word => tree.insert(word));
+        console.log('checking words');
+        words.forEach(word => tree.contains(word).should.equal(true));
+        console.log('looping words');
+        tree.forEach(word => {
+          should.equal(counted.get(word), undefined);
+          counted.set(word, true);
+        });
+
+        done();
       });
     });
   });
