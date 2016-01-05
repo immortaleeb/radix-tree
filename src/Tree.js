@@ -10,7 +10,13 @@ class Tree {
   // Creates a new instance
   constructor(strings) {
     this.root = new Node();
+    this._size = 0;
     strings && strings.forEach(string => this.insert(string));
+  }
+
+  // Returns the number of unique strings stored in the tree
+  size() {
+    return this._size;
   }
 
   // Inserts a string into the tree
@@ -33,11 +39,13 @@ class Tree {
           newNode.children[string.substr(match.prefix.length)] = new Node(true);
           delete currentNode.children[match.string];
           currentNode.children[match.prefix] = newNode;
+          this._size++;
           return;
         }
       } else {
         // We need to insert here
         currentNode.children[string] = new Node(true);
+        this._size++;
         return;
       }
     }

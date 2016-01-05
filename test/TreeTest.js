@@ -17,6 +17,30 @@ describe('Tree', () => {
     });
   });
 
+  describe('#size()', () => {
+    it('should be 0 when tree is empty', () => {
+      let tree = new Tree();
+      tree.size().should.equal(0);
+    });
+
+    it('should show the number of inserted strings', () => {
+      let tree = new Tree();
+      tree.insert('abc');
+      tree.insert('def');
+      tree.size().should.equal(2);
+    });
+
+    it('should only count unique insertions', () => {
+      let tree = new Tree();
+      tree.insert('abc');
+      tree.insert('abc');
+      tree.insert('dfh');
+      tree.insert('azerty');
+      tree.insert('azerty');
+      tree.size().should.equal(3);
+    });
+  });
+
   describe('#contains()', () => {
     it('should return false on an empty tree', () => {
       let tree = new Tree();
@@ -111,6 +135,8 @@ describe('Tree', () => {
 
         console.log('inserting words');
         words.forEach(word => tree.insert(word));
+        console.log('checking size');
+        tree.size().should.equal(words.length-1); // -1 because '' is counted twice in words
         console.log('checking words');
         words.forEach(word => tree.contains(word).should.equal(true));
         console.log('looping words');

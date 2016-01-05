@@ -1,6 +1,6 @@
 {
   "name": "radix-tree",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A pure javascript implementation of a radix tree for efficient storage of strings",
   "main": "index.js",
   "scripts": {
